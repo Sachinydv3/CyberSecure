@@ -1,7 +1,38 @@
 /* ==========================================================================
-   SecureCyber — Dark theme tokens
+   SecureCyber — Theme tokens
    ========================================================================== */
 
+/* Light Theme (Default) */
+:root[data-theme="light"] {
+  /* Surfaces */
+  --bg:          #ffffff;
+  --bg-elev:     #f8f9fa;
+  --bg-elev-2:   #e9ecef;
+  --border:      #dee2e6;
+
+  /* Text */
+  --text:        #212529;
+  --text-muted:  #6c757d;
+
+  /* Accents */
+  --accent:      #007bff;
+  --accent-2:    #28a745;
+  --warn:        #ffc107;
+  --danger:      #dc3545;
+
+  /* Geometry */
+  --radius:      12px;
+  --radius-sm:   8px;
+  --shadow:      0 10px 30px rgba(0, 0, 0, .1);
+  --shadow-sm:   0 4px 12px rgba(0, 0, 0, .08);
+
+  /* Type */
+  --font:        ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+                 Roboto, "Helvetica Neue", Arial, sans-serif;
+  --mono:        ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+}
+
+/* Dark Theme */
 :root[data-theme="dark"] {
   /* Surfaces */
   --bg:          #0b0f14;
@@ -24,9 +55,4 @@
   --radius-sm:   8px;
   --shadow:      0 10px 30px rgba(0, 0, 0, .45);
   --shadow-sm:   0 4px 12px rgba(0, 0, 0, .35);
-
-  /* Type */
-  --font:        ui-sans-serif, system-ui, -apple-system, "Segoe UI",
-                 Roboto, "Helvetica Neue", Arial, sans-serif;
-  --mono:        ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
 }

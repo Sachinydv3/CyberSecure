@@ -35,7 +35,7 @@ brew install postgresql@16
 brew services start postgresql@16
 createuser -s securecyber
 createdb -O securecyber securecyber
-``
+```
 
 ### 2. Python environment
 
@@ -107,3 +107,10 @@ Labels: `≥80 → very_strong`, `≥60 → strong`, `≥40 → medium`, else `w
 4. Build templates in `templates/<tool>/`
 
 The dashboard card grid is data-driven — add your tool to the `tools` list in `dashboard/views.py`.
+
+## Upcoming Tools
+The following utilities are currently in development:
+- **Phishing Inspector**: Analyze emails and URLs for phishing indicators.
+- **Hash Inspector**: Identify and crack common cryptographic hashes.
+- **Breach Lookup**: Check if credentials have appeared in known data breaches.
+

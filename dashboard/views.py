@@ -5,14 +5,11 @@ from django.shortcuts import render
 
 
 PLACEHOLDERS = {
-    "phishing": "Phishing URL Inspector",
     "hash": "Hash Inspector",
     "breach": "Breach Lookup",
 }
 
 DESCRIPTIONS = {
-    "phishing": "Paste a suspicious URL and we'll check it against common "
-                "phishing heuristics and known-bad domain patterns.",
     "hash": "Generate or verify SHA-1, SHA-256, and BLAKE2 hashes of any "
             "text or file you upload.",
     "breach": "Look up whether an email address has appeared in a public "
@@ -45,11 +42,14 @@ def home(request):
             ),
         },
         {
-            "name": PLACEHOLDERS["phishing"],
-            "url": "dashboard:tool_phishing",
-            "ready": False,
+            "name": "Phishing Email Detector",
+            "url": "phishing:index",
+            "ready": True,
             "icon": "🎣",
-            "description": DESCRIPTIONS["phishing"],
+            "description": (
+                "Analyze email content using machine learning to detect "
+                "phishing attempts and common fraud patterns."
+            ),
         },
         {
             "name": PLACEHOLDERS["hash"],

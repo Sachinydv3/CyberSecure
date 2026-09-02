@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this project is
 
-SecureCyber is a Django 5 web app that hosts small cybersecurity utilities. It currently features the **Password Strength Analyzer** and the **Phishing Email Detector**. The dashboard reserves slots for two planned tools (Hash Inspector, Breach Lookup) that currently render "coming soon" placeholders.
+SecureCyber is a Django 5 web app that hosts small cybersecurity utilities. It currently features the **Password Strength Analyzer**, the **Phishing Email Detector**, and the **Secure Login System**. The dashboard reserves slots for two planned tools (Hash Inspector, Breach Lookup) that currently render "coming soon" placeholders.
 
 - **Backend:** Django 5.x, Python 3.10+
 - **Database:** PostgreSQL (configured entirely via `.env`)
@@ -86,6 +86,17 @@ An ML-powered tool that classifies email content as phishing or safe:
    - `index` — renders the tool interface.
    - `analyze` (POST, JSON) — classifies the input text and returns the result along with pre-calculated model metrics.
 4. **Frontend** (`templates/phishing/index.html`) — a clean interface for pasting email content, displaying a color-coded result badge and a performance table for the confusion matrix.
+
+### Secure Login System (`accounts/`)
+
+A demonstration of a secure authentication flow with multi-factor authentication:
+
+1. **User Model** (`accounts/models.py`) — extends `AbstractUser` with `totp_secret` and `is_2fa_enabled` to support TOTP-based 2FA.
+2. **Auth Flow** (`accounts/views.py`):
+   - **Registration**: Creates new user accounts using standard Django auth.
+   - **Two-Step Login**: Verifies password first, then checks for 2FA. If enabled, requires a 6-digit code verified via `pyotp`.
+   - **2FA Management**: Allows users to enable/disable 2FA and displays a QR code for authenticator apps using `qrcode`.
+3. **Frontend** (`templates/accounts/`) — custom pages for signup, login, 2FA verification, and profile management.
 
 ### Dashboard (`dashboard/`)
 

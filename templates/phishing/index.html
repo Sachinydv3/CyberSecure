@@ -1,0 +1,173 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Phishing Email Detector{% endblock %}
+
+{% block content %}
+<div class="tool-container">
+    <header class="tool-header">
+        <h1>Phishing Email Detector</h1>
+        <p>Enter the content of an email to analyze if it is likely a phishing attempt or a legitimate message.</p>
+    </header>
+
+    <div class="tool-main">
+        <div class="input-section">
+            <form id="phishing-form">
+                {% csrf_token %}
+                <div class="form-group">
+                    <label for="email-text">Email Content</label>
+                    <textarea id="email-text" name="text" rows="12" placeholder="Paste the email body here..."></textarea>
+                </div>
+                <button type="submit" id="analyze-btn" class="btn-primary">Analyze Email</button>
+            </form>
+        </div>
+
+        <div class="result-section" id="result-section" hidden>
+            <div class="result-card">
+                <h2>Analysis Result</h2>
+                <div id="classification-badge" class="badge">Analyzing...</div>
+                <p id="result-message" class="result-text"></p>
+            </div>
+
+            <div class="metrics-card">
+                <h2>Model Performance</h2>
+                <div class="metric-item">
+                    <span class="metric-label">Overall Accuracy:</span>
+                    <span id="model-accuracy" class="metric-value">0%</span>
+                </div>
+                <div class="confusion-matrix-container">
+                    <h3>Confusion Matrix</h3>
+                    <table id="confusion-matrix-table" class="matrix-table">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>Predicted Safe</th>
+                                <th>Predicted Phishing</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <th>Actual Safe</th>
+                                <td id="cm-0-0">0</td>
+                                <td id="cm-0-1">0</td>
+                            </tr>
+                            <tr>
+                                <th>Actual Phishing</th>
+                                <td id="cm-1-0">0</td>
+                                <td id="cm-1-1">0</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .tool-container { max-width: 1000px; margin: 0 auto; padding: 2rem 1rem; }
+    .tool-header { text-align: center; margin-bottom: 2rem; }
+    .tool-main { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; }
+    .form-group { display: flex; flex-direction: column; gap: 0.5rem; }
+    textarea { width: 100%; background: #1e1e1e; color: #eee; border: 1px solid #333; padding: 1rem; border-radius: 8px; font-family: inherit; resize: vertical; }
+    .btn-primary { background: #3b82f6; color: white; border: none; padding: 0.75rem 1.5rem; border-radius: 6px; cursor: pointer; font-weight: bold; margin-top: 1rem; width: 100%; }
+    .btn-primary:hover { background: #2563eb; }
+
+    .result-section { display: flex; flex-direction: column; gap: 1.5rem; }
+    .result-card, .metrics-card { background: #2a2a2a; padding: 1.5rem; border-radius: 12px; border: 1px solid #333; }
+    .result-card h2, .metrics-card h2 { margin-top: 0; font-size: 1.25rem; color: #ccc; margin-bottom: 1rem; }
+
+    .badge { display: inline-block; padding: 0.5rem 1rem; border-radius: 20px; font-weight: bold; font-size: 1.1rem; margin-bottom: 1rem; }
+    .badge-phishing { background: #ef4444; color: white; }
+    .badge-safe { background: #10b981; color: white; }
+    .result-text { color: #aaa; line-height: 1.5; }
+
+    .metric-item { display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem; padding-bottom: 1rem; border-bottom: 1px solid #333; }
+    .metric-label { color: #aaa; }
+    .metric-value { font-size: 1.5rem; font-weight: bold; color: #3b82f6; }
+
+    .matrix-table { width: 100%; border-collapse: collapse; text-align: center; }
+    .matrix-table th, .matrix-table td { padding: 0.75rem; border: 1px solid #444; }
+    .matrix-table th { color: #888; font-weight: normal; }
+    .matrix-table td { font-size: 1.2rem; font-weight: bold; }
+
+    @media (max-width: 768px) {
+        .tool-main { grid-template-columns: 1fr; }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', () => {
+    const form = document.getElementById('phishing-form');
+    const resultSection = document.getElementById('result-section');
+    const badge = document.getElementById('classification-badge');
+    const resultMessage = document.getElementById('result-message');
+    const accuracyEl = document.getElementById('model-accuracy');
+
+    const cm00 = document.getElementById('cm-0-0');
+    const cm01 = document.getElementById('cm-0-1');
+    const cm10 = document.getElementById('cm-1-0');
+    const cm11 = document.getElementById('cm-1-1');
+
+    form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        const text = document.getElementById('email-text').value;
+        if (!text) {
+            alert('Please enter email content.');
+            return;
+        }
+
+        const btn = document.getElementById('analyze-btn');
+        btn.disabled = true;
+        btn.textContent = 'Analyzing...';
+
+        try {
+            const response = await fetch("{% url 'phishing:analyze' %}", {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: new URLSearchParams({ 'text': text })
+            });
+
+            const data = await response.json();
+
+            if (data.error) {
+                alert(data.error);
+            } else {
+                resultSection.hidden = false;
+
+                // Result
+                if (data.result === 'Phishing') {
+                    badge.textContent = '🚨 Phishing Detected';
+                    badge.className = 'badge badge-phishing';
+                    resultMessage.textContent = 'Warning: This email exhibits characteristics common in phishing attempts. Do not click any links or provide personal information.';
+                } else {
+                    badge.textContent = '✅ Safe Email';
+                    badge.className = 'badge badge-safe';
+                    resultMessage.textContent = 'This email appears to be legitimate based on the model analysis.';
+                }
+
+                // Metrics
+                const metrics = data.metrics;
+                accuracyEl.textContent = (metrics.accuracy * 100).toFixed(2) + '%';
+
+                const cm = metrics.confusion_matrix;
+                cm00.textContent = cm[0][0];
+                cm01.textContent = cm[0][1];
+                cm10.textContent = cm[1][0];
+                cm11.textContent = cm[1][1];
+            }
+        } catch (err) {
+            alert('An error occurred while analyzing the email.');
+            console.error(err);
+        } finally {
+            btn.disabled = false;
+            btn.textContent = 'Analyze Email';
+        }
+    });
+});
+</script>
+{% endblock %}

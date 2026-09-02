@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block title %}Dashboard — SecureCyber{% endblock %}
+
+{% block content %}
+<section class="hero">
+  <h1>Welcome to SecureCyber</h1>
+  <p class="muted">
+    A small but growing toolkit for everyday security hygiene.
+    Pick a tool below to get started.
+  </p>
+</section>
+
+<div class="card-grid">
+  {% for tool in tools %}
+    <a class="card {% if not tool.ready %}card--muted{% endif %}" href="{% url tool.url %}">
+      <span class="card__icon" aria-hidden="true">{{ tool.icon }}</span>
+      <h3 class="card__title">{{ tool.name }}</h3>
+      <p class="card__desc muted">{{ tool.description }}</p>
+      <p class="card__cta">
+        {% if tool.ready %}
+          <span class="badge badge--ok">Ready</span>
+          <span class="muted">Open tool →</span>
+        {% else %}
+          <span class="badge badge--soon">Coming soon</span>
+        {% endif %}
+      </p>
+    </a>
+  {% endfor %}
+</div>
+{% endblock %}

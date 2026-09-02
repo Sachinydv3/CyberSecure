@@ -1,0 +1,128 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Vulnerability Scanner — SecureCyber{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/scanner.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="scanner">
+  <header class="scanner__header">
+    <h1>Vulnerability Scanner</h1>
+    <p class="muted">
+      Run a lightweight scan against a target you own or are authorised
+      to test. Checks include HTTP security headers, server-disclosure,
+      cookie attributes, sensitive-path exposure, and a TCP-connect
+      scan of common ports.
+    </p>
+  </header>
+
+  <div class="flash flash--warning scanner__warning" role="alert">
+    <strong>Authorisation required.</strong>
+    Only scan systems you own or have explicit written permission to
+    test. Unauthorised port scanning and security testing can violate
+    computer-misuse laws in many jurisdictions.
+  </div>
+
+  <form method="post" novalidate id="scanner-form"
+        action="{% url 'scanner:scanner_index' %}" class="scanner__form">
+    {% csrf_token %}
+
+    <div class="form-field">
+      <label for="target-input">Target URL</label>
+      {{ form.target }}
+      {% if form.target.errors %}
+        <p class="form-error">{{ form.target.errors|join:", " }}</p>
+      {% endif %}
+      {% if form.target.help_text %}
+        <p class="form-hint muted">{{ form.target.help_text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="form-field">
+      <label for="scan-type">Scan type</label>
+      {{ form.scan_type }}
+    </div>
+
+    <div class="form-field form-field--checkbox">
+      {{ form.localhost_only }}
+      <label for="{{ form.localhost_only.id_for_label }}">
+        {{ form.localhost_only.label }}
+      </label>
+      {% if form.localhost_only.help_text %}
+        <p class="form-hint muted">{{ form.localhost_only.help_text }}</p>
+      {% endif %}
+    </div>
+
+    <div class="form-field form-field--consent">
+      {{ form.consent }}
+      <label for="{{ form.consent.id_for_label }}">{{ form.consent.label }}</label>
+    </div>
+    {% if form.consent.errors %}
+      <p class="form-error">{{ form.consent.errors|join:", " }}</p>
+    {% endif %}
+
+    <div class="form-actions">
+      <button class="btn btn--primary" type="submit" disabled>Run scan</button>
+      <span class="muted scanner__eta">~5 seconds for a full scan.</span>
+    </div>
+  </form>
+
+  {% if result %}
+    <section class="scanner__report">
+      <header class="scanner__report-header">
+        <h2>Report — {{ result.target }}</h2>
+        <p class="muted">
+          Scanned
+          {% if result.scan_type == "full" %}HTTP headers and open ports
+          {% elif result.scan_type == "http" %}HTTP headers only
+          {% else %}open ports only{% endif %}
+          {% if result.localhost_only %}(localhost-only mode){% endif %}.
+        </p>
+      </header>
+
+      <ul class="scanner__counts" aria-label="Findings by severity">
+        <li class="scanner__count scanner__count--high">
+          <span class="scanner__count-num">{{ result.counts.high }}</span>
+          <span class="scanner__count-label">high</span>
+        </li>
+        <li class="scanner__count scanner__count--medium">
+          <span class="scanner__count-num">{{ result.counts.medium }}</span>
+          <span class="scanner__count-label">medium</span>
+        </li>
+        <li class="scanner__count scanner__count--low">
+          <span class="scanner__count-num">{{ result.counts.low }}</span>
+          <span class="scanner__count-label">low</span>
+        </li>
+        <li class="scanner__count scanner__count--info">
+          <span class="scanner__count-num">{{ result.counts.info }}</span>
+          <span class="scanner__count-label">info</span>
+        </li>
+      </ul>
+
+      {% if result.errors %}
+        <div class="flash flash--warning" role="status">
+          <ul>
+            {% for err in result.errors %}<li>{{ err }}</li>{% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+
+      {% if result.truncated %}
+        <p class="muted">
+          Showing the first {{ result.max_findings }} findings — too many
+          to display cleanly.
+        </p>
+      {% endif %}
+
+      {% include "scanner/_findings.html" with findings=result.findings %}
+    </section>
+  {% endif %}
+</section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/scanner.js' %}" defer></script>
+{% endblock %}

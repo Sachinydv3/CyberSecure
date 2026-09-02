@@ -1,0 +1,117 @@
+/* ==========================================================================
+   SecureCyber — Analyzer page styles
+   ========================================================================== */
+
+.analyzer {
+  max-width: 720px;
+}
+.analyzer__header {
+  margin-bottom: 1.25rem;
+}
+.analyzer__form {
+  margin-bottom: 1.5rem;
+}
+
+/* ----- Meter ----- */
+.meter {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.meter__bar {
+  height: 10px;
+  background: var(--bg-elev-2);
+  border-radius: 999px;
+  overflow: hidden;
+  margin: .35rem 0 .65rem;
+}
+.meter__bar > span {
+  display: block;
+  height: 100%;
+  width: 0%;
+  background: var(--danger);
+  transition: width .25s ease, background .25s ease;
+}
+.meter__bar[data-label="medium"] > span { background: var(--warn); }
+.meter__bar[data-label="strong"] > span,
+.meter__bar[data-label="very_strong"] > span { background: var(--accent-2); }
+
+.meter__meta {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  font-size: .85rem;
+}
+.meter__label {
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.checks {
+  list-style: none;
+  padding: 0;
+  margin: 1rem 0 0;
+}
+.checks li {
+  display: flex;
+  justify-content: space-between;
+  padding: .35rem 0;
+  border-bottom: 1px dashed var(--border);
+  font-size: .9rem;
+}
+.checks li:last-child { border-bottom: none; }
+.checks li.pass { color: var(--accent-2); }
+.checks li.fail { color: var(--text-muted); }
+.checks li::after {
+  font-weight: 700;
+  margin-left: .75rem;
+}
+.checks li.pass::after { content: "✓"; }
+.checks li.fail::after { content: "✗"; }
+
+/* ----- Server result + reuse ----- */
+.server-result {
+  margin-top: 1.5rem;
+  padding: 1rem 1.15rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.reuse {
+  margin: .75rem 0 0;
+  padding: .65rem .85rem;
+  background: rgba(245, 165, 36, .1);
+  border: 1px solid var(--warn);
+  border-radius: var(--radius-sm);
+  color: var(--warn);
+}
+
+/* ----- Suggestions ----- */
+.suggestions {
+  margin-top: 1.25rem;
+  padding: 1rem 1.15rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+.suggestions ul {
+  list-style: none;
+  padding: 0;
+  margin: .5rem 0 0;
+}
+.suggestions li {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  padding: .6rem .8rem;
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  margin-bottom: .5rem;
+  background: var(--bg);
+  font-family: var(--mono);
+  word-break: break-all;
+}
+.suggestions li:last-child { margin-bottom: 0; }

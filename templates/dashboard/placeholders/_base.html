@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+{% block title %}{{ tool_name }} — SecureCyber{% endblock %}
+
+{% block content %}
+<section class="placeholder">
+  <h1>{{ tool_name }}</h1>
+  <p class="muted">{{ tool_description }}</p>
+
+  <div class="placeholder__box">
+    <div class="placeholder__icon" aria-hidden="true">🚧</div>
+    <p class="placeholder__title">Coming soon</p>
+    <p class="muted">
+      We're building this tool next. Check back shortly, or
+      <a href="{% url 'dashboard:home' %}">return to the dashboard</a>.
+    </p>
+  </div>
+</section>
+{% endblock %}

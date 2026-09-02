@@ -1,0 +1,35 @@
+<aside class="sidebar" id="sidebar">
+  <nav class="sidebar__nav">
+    <a class="sidebar__link" href="{% url 'dashboard:home' %}">
+      <span class="sidebar__icon" aria-hidden="true">🏠</span>
+      <span>Dashboard</span>
+    </a>
+    <a class="sidebar__link" href="{% url 'analyzer:analyzer_index' %}">
+      <span class="sidebar__icon" aria-hidden="true">🔑</span>
+      <span>Password Analyzer</span>
+    </a>
+    <a class="sidebar__link" href="{% url 'analyzer:analyzer_learn' %}">
+      <span class="sidebar__icon" aria-hidden="true">📚</span>
+      <span>Learn</span>
+    </a>
+    <a class="sidebar__link" href="{% url 'scanner:scanner_index' %}">
+      <span class="sidebar__icon" aria-hidden="true">🛠️</span>
+      <span>Vulnerability Scanner</span>
+    </a>
+    <div class="sidebar__group">
+      <p class="sidebar__heading">Coming soon</p>
+      <a class="sidebar__link sidebar__link--muted" href="{% url 'dashboard:tool_phishing' %}">
+        <span class="sidebar__icon" aria-hidden="true">🎣</span>
+        <span>Phishing Inspector</span>
+      </a>
+      <a class="sidebar__link sidebar__link--muted" href="{% url 'dashboard:tool_hash' %}">
+        <span class="sidebar__icon" aria-hidden="true">#️⃣</span>
+        <span>Hash Inspector</span>
+      </a>
+      <a class="sidebar__link sidebar__link--muted" href="{% url 'dashboard:tool_breach' %}">
+        <span class="sidebar__icon" aria-hidden="true">🛡️</span>
+        <span>Breach Lookup</span>
+      </a>
+    </div>
+  </nav>
+</aside>

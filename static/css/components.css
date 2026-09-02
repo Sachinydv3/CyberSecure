@@ -1,0 +1,213 @@
+/* ==========================================================================
+   SecureCyber — Components (cards, buttons, badges, hero)
+   ========================================================================== */
+
+/* ----- Hero ----- */
+.hero {
+  margin-bottom: 1.75rem;
+}
+.hero h1 {
+  margin-bottom: .25rem;
+}
+
+/* ----- Card grid ----- */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+  gap: 1rem;
+}
+
+.card {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1.1rem 1.15rem;
+  color: var(--text);
+  text-decoration: none;
+  transition: background .15s, transform .15s, border-color .15s;
+}
+.card:hover {
+  background: var(--bg-elev-2);
+  border-color: var(--accent);
+  transform: translateY(-2px);
+  text-decoration: none;
+}
+.card--muted {
+  opacity: .7;
+}
+.card__icon {
+  font-size: 1.75rem;
+  margin-bottom: .25rem;
+}
+.card__title {
+  font-size: 1.05rem;
+  margin: 0;
+}
+.card__desc {
+  font-size: .9rem;
+  margin: 0;
+  flex-grow: 1;
+}
+.card__cta {
+  display: flex;
+  align-items: center;
+  gap: .55rem;
+  margin: .25rem 0 0;
+  font-size: .85rem;
+}
+
+.badge {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: .72rem;
+  font-weight: 600;
+  letter-spacing: .02em;
+  text-transform: uppercase;
+}
+.badge--ok   { background: rgba(126, 231, 135, .15); color: var(--accent-2); }
+.badge--soon { background: rgba(154, 167, 180, .15); color: var(--text-muted); }
+
+/* ----- Buttons ----- */
+.btn {
+  display: inline-block;
+  padding: .55rem 1rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid transparent;
+  cursor: pointer;
+  font: inherit;
+  font-weight: 600;
+  transition: background .15s, border-color .15s, opacity .15s;
+}
+.btn:disabled {
+  opacity: .5;
+  cursor: not-allowed;
+}
+.btn--primary {
+  background: var(--accent);
+  color: #06121a;
+}
+.btn--primary:hover:not(:disabled) {
+  background: #76dcf6;
+}
+.btn--ghost {
+  background: transparent;
+  color: var(--text);
+  border-color: var(--border);
+}
+.btn--ghost:hover:not(:disabled) {
+  background: var(--bg-elev-2);
+}
+
+/* ----- Form fields ----- */
+.form-field {
+  display: flex;
+  flex-direction: column;
+  gap: .35rem;
+  margin-bottom: 1rem;
+}
+.form-field label {
+  font-weight: 600;
+  font-size: .9rem;
+}
+.form-field .form-control,
+.form-field input[type="password"],
+.form-field input[type="text"] {
+  width: 100%;
+  padding: .6rem .8rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-sm);
+  color: var(--text);
+  font: inherit;
+}
+.form-field .form-control:focus,
+.form-field input:focus {
+  outline: none;
+  border-color: var(--accent);
+  box-shadow: 0 0 0 3px rgba(76, 201, 240, .25);
+}
+.form-field--consent {
+  flex-direction: row;
+  align-items: center;
+  gap: .6rem;
+}
+.form-field--consent label {
+  font-weight: 400;
+  font-size: .85rem;
+  color: var(--text-muted);
+}
+.form-error {
+  color: var(--danger);
+  font-size: .85rem;
+  margin: .25rem 0;
+}
+
+.form-actions {
+  display: flex;
+  gap: .65rem;
+  flex-wrap: wrap;
+  margin-top: .25rem;
+}
+
+/* ----- Strength labels ----- */
+.label {
+  display: inline-block;
+  padding: 2px 8px;
+  border-radius: 999px;
+  font-size: .8rem;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+.label--weak        { background: rgba(239, 68, 68,  .15); color: var(--danger); }
+.label--medium      { background: rgba(245, 165, 36, .15); color: var(--warn); }
+.label--strong,
+.label--very_strong { background: rgba(126, 231, 135,.15); color: var(--accent-2); }
+
+/* ----- Flash messages ----- */
+.flash {
+  margin-bottom: 1rem;
+}
+.flash__item {
+  padding: .65rem .85rem;
+  border-radius: var(--radius-sm);
+  border: 1px solid var(--border);
+  background: var(--bg-elev);
+  margin-bottom: .5rem;
+}
+.flash__item--success { border-color: var(--accent-2); }
+.flash__item--error   { border-color: var(--danger); }
+
+/* ----- Placeholder ----- */
+.placeholder {
+  max-width: 720px;
+}
+.placeholder__box {
+  margin-top: 1.5rem;
+  padding: 2rem;
+  border: 1px dashed var(--border);
+  border-radius: var(--radius);
+  background: var(--bg-elev);
+  text-align: center;
+}
+.placeholder__icon { font-size: 2.5rem; }
+.placeholder__title {
+  font-weight: 700;
+  margin: .5rem 0;
+}
+
+/* ----- Learn cards ----- */
+.learn__card {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.15rem;
+  margin-bottom: 1rem;
+}
+.learn__card ul {
+  margin: 0;
+  padding-left: 1.25rem;
+}

@@ -1,0 +1,166 @@
+/* ==========================================================================
+   SecureCyber — Vulnerability Scanner page styles
+   ========================================================================== */
+
+.scanner {
+  max-width: 880px;
+  margin: 0 auto;
+}
+
+.scanner__header h1 {
+  margin-bottom: .25rem;
+}
+
+.scanner__warning {
+  margin: 1rem 0 1.5rem;
+}
+
+/* ---- form ---- */
+.scanner__form .form-field--checkbox label {
+  font-weight: 600;
+}
+
+.scanner__eta {
+  font-size: .9em;
+  margin-left: .75rem;
+}
+
+/* ---- report header + counts ---- */
+.scanner__report {
+  margin-top: 2rem;
+  padding-top: 1.5rem;
+  border-top: 1px solid var(--border);
+}
+
+.scanner__report-header h2 {
+  margin-bottom: .25rem;
+  word-break: break-all;
+}
+
+.scanner__counts {
+  list-style: none;
+  display: flex;
+  gap: .75rem;
+  padding: 0;
+  margin: 1rem 0 1.5rem;
+  flex-wrap: wrap;
+}
+
+.scanner__count {
+  flex: 1 1 0;
+  min-width: 110px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: .25rem;
+  padding: 1rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+.scanner__count-num {
+  font-size: 1.75rem;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.scanner__count-label {
+  font-size: .8rem;
+  text-transform: uppercase;
+  letter-spacing: .05em;
+}
+
+.scanner__count--high   { border-left: 4px solid var(--danger); }
+.scanner__count--medium { border-left: 4px solid var(--warn);   }
+.scanner__count--low    { border-left: 4px solid var(--accent); }
+.scanner__count--info   { border-left: 4px solid var(--text-muted); }
+
+.scanner__count--high   .scanner__count-num { color: var(--danger); }
+.scanner__count--medium .scanner__count-num { color: var(--warn);   }
+.scanner__count--low    .scanner__count-num { color: var(--accent); }
+
+.scanner__clean {
+  padding: 1rem;
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+}
+
+/* ---- finding card ---- */
+.findings {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: .75rem;
+}
+
+.finding {
+  background: var(--bg-elev);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 1rem 1.25rem;
+}
+
+.finding--high   { border-left: 4px solid var(--danger); }
+.finding--medium { border-left: 4px solid var(--warn);   }
+.finding--low    { border-left: 4px solid var(--accent); }
+.finding--info   { border-left: 4px solid var(--text-muted); }
+
+.finding__head {
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+  flex-wrap: wrap;
+  margin-bottom: .5rem;
+}
+
+.finding__title {
+  margin: 0;
+  font-size: 1rem;
+  flex: 1 1 auto;
+}
+
+.finding__category {
+  font-family: var(--mono);
+  font-size: .8em;
+}
+
+.finding__body {
+  display: grid;
+  grid-template-columns: max-content 1fr;
+  gap: .35rem 1rem;
+  margin: 0;
+}
+
+.finding__dt {
+  font-weight: 600;
+  color: var(--text-muted);
+  font-size: .85em;
+  text-transform: uppercase;
+  letter-spacing: .04em;
+  align-self: start;
+  padding-top: .15em;
+}
+
+.finding__dd {
+  margin: 0;
+  word-break: break-word;
+}
+
+.finding__dd code {
+  background: var(--bg-elev-2);
+  padding: .1em .35em;
+  border-radius: var(--radius-sm);
+  font-family: var(--mono);
+  font-size: .9em;
+}
+
+/* ---- severity badges (reuse .badge styles from components.css but
+       add scanner-specific colour overrides if the theme shifts) ---- */
+.badge--high   { background: rgba(239, 68, 68, .15);  color: var(--danger); }
+.badge--medium { background: rgba(245, 165, 36, .15); color: var(--warn);   }
+.badge--low    { background: rgba(76, 201, 240, .15); color: var(--accent); }
+.badge--info   { background: rgba(154, 167, 180, .15); color: var(--text-muted); }

@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Password Strength Analyzer — SecureCyber{% endblock %}
+
+{% block extra_css %}
+  <link rel="stylesheet" href="{% static 'css/analyzer.css' %}">
+{% endblock %}
+
+{% block content %}
+<section class="analyzer">
+  <header class="analyzer__header">
+    <h1>Password Strength Analyzer</h1>
+    <p class="muted">
+      Type a password below to get real-time feedback. Nothing is ever
+      stored in plaintext — only a SHA-256 hash is persisted, scoped to
+      your session.
+    </p>
+  </header>
+
+  <form method="post" novalidate id="analyzer-form" action="{% url 'analyzer:analyzer_index' %}" class="analyzer__form">
+    {% csrf_token %}
+
+    <div class="form-field">
+      <label for="password-input">Password</label>
+      {{ form.password }}
+      {% if form.password.errors %}
+        <p class="form-error">{{ form.password.errors|join:", " }}</p>
+      {% endif %}
+    </div>
+
+    <div class="form-field form-field--consent">
+      {{ form.consent }}
+      <label for="{{ form.consent.id_for_label }}">{{ form.consent.label }}</label>
+    </div>
+    {% if form.consent.errors %}
+      <p class="form-error">{{ form.consent.errors|join:", " }}</p>
+    {% endif %}
+
+    <div class="form-actions">
+      <button class="btn btn--primary" type="submit" disabled>Analyze</button>
+      <button class="btn btn--ghost" type="button" id="suggest-btn">Suggest stronger</button>
+    </div>
+  </form>
+
+  {% include "partials/_strength_meter.html" %}
+
+  {% if result %}
+    <section class="server-result">
+      <h2>Server-side result</h2>
+      <p>
+        Strength: <strong class="label label--{{ result.label }}">{{ result.label|cut:'_' }}</strong>
+        ({{ result.score }} / 100, {{ result.bits }} bits)
+      </p>
+      {% if reuse %}
+        <p class="reuse">
+          ⚠ This password has been seen in your session before — consider
+          choosing a different one.
+        </p>
+      {% endif %}
+    </section>
+  {% endif %}
+
+  <section id="suggestions" class="suggestions" hidden>
+    <h3>Suggested alternatives</h3>
+    <ul id="suggestions-list"></ul>
+  </section>
+</section>
+{% endblock %}
+
+{% block extra_js %}
+  <script src="{% static 'js/meter.js' %}" defer></script>
+  <script src="{% static 'js/analyzer.js' %}" defer></script>
+{% endblock %}

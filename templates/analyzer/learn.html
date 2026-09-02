@@ -1,0 +1,59 @@
+{% extends "base.html" %}
+
+{% block title %}Learn — SecureCyber{% endblock %}
+
+{% block content %}
+<section class="learn">
+  <h1>Password Security 101</h1>
+  <p class="muted">
+    A quick primer on why passwords get cracked, and what actually helps.
+  </p>
+
+  <article class="learn__card">
+    <h2>Length beats complexity</h2>
+    <p>
+      A 16-character passphrase composed of four random words is
+      dramatically stronger than <code>P@ssw0rd!</code>. Every additional
+      character multiplies the work an attacker must do.
+    </p>
+  </article>
+
+  <article class="learn__card">
+    <h2>Never reuse passwords</h2>
+    <p>
+      When a site you use is breached, attackers immediately try your
+      email-and-password combo on every other popular service. A unique
+      password per site contains the blast radius to one account.
+    </p>
+  </article>
+
+  <article class="learn__card">
+    <h2>Use a password manager</h2>
+    <p>
+      A modern password manager generates, stores, and autofills strong
+      unique passwords so you don't have to remember them. The master
+      password is the only one you actually need to know.
+    </p>
+  </article>
+
+  <article class="learn__card">
+    <h2>Turn on multi-factor authentication (MFA)</h2>
+    <p>
+      Even a strong password can leak. An authenticator-app or hardware
+      key as a second factor blocks the vast majority of credential-
+      stuffing attacks.
+    </p>
+  </article>
+
+  <article class="learn__card">
+    <h2>What this tool does (and doesn't)</h2>
+    <ul>
+      <li>Estimates entropy using Shannon's formula and pattern penalties.</li>
+      <li>Checks against a curated common-password list.</li>
+      <li>Detects sequential runs, keyboard rows, and 3+ repeated chars.</li>
+      <li>Stores only the SHA-256 hash, never the plaintext.</li>
+      <li>Does not check against real-world breach corpora (future feature).</li>
+    </ul>
+  </article>
+</section>
+{% endblock %}

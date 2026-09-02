@@ -1,0 +1,30 @@
+{% load static %}
+{# Renders a list of finding dicts grouped by severity. #}
+{# Expects: findings — list of {severity, category, title, detail, recommendation} #}
+
+{% if findings %}
+  <ol class="findings">
+    {% for f in findings %}
+      <li class="finding finding--{{ f.severity }}">
+        <header class="finding__head">
+          <span class="finding__badge badge badge--{{ f.severity }}">
+            {{ f.severity }}
+          </span>
+          <h3 class="finding__title">{{ f.title }}</h3>
+          <span class="finding__category muted">{{ f.category }}</span>
+        </header>
+        <dl class="finding__body">
+          <dt class="finding__dt">Detail</dt>
+          <dd class="finding__dd"><code>{{ f.detail }}</code></dd>
+          <dt class="finding__dt">Recommendation</dt>
+          <dd class="finding__dd">{{ f.recommendation }}</dd>
+        </dl>
+      </li>
+    {% endfor %}
+  </ol>
+{% else %}
+  <p class="scanner__clean muted">
+    ✅ No findings — the scanned surface looks clean (within the limits
+    of this lightweight scanner).
+  </p>
+{% endif %}

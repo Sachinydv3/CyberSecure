@@ -82,6 +82,8 @@ Visit:
 
 - http://127.0.0.1:8000/ — dashboard
 - http://127.0.0.1:8000/analyzer/ — Password Strength Analyzer
+- http://127.0.0.1:8000/phishing/ — Phishing Email Detector
+- http://127.0.0.1:8000/accounts/ — Secure Login System
 - http://127.0.0.1:8000/admin/ — Django admin (if you created a superuser)
 
 ## Tests
@@ -107,7 +109,7 @@ Labels: `≥80 → very_strong`, `≥60 → strong`, `≥40 → medium`, else `w
 
 1. Create a new app: `python manage.py startapp <tool>`
 2. Add it to `INSTALLED_APPS` in `settings.py`
-3. Add URLs under `/tools/<name>/` in `dashboard/urls.py`
+u3. Add URLs under `/tools/<name>/` in `dashboard/urls.py`
 4. Build templates in `templates/<tool>/`
 
 The dashboard card grid is data-driven — add your tool to the `tools` list in `dashboard/views.py`.

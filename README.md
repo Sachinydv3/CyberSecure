@@ -1,6 +1,9 @@
 # SecureCyber
 
-A Django-based cybersecurity web project. The first tool is the **Password Strength Analyzer**: it evaluates password length, complexity, and uniqueness, suggests stronger alternatives, and prevents reuse via a PostgreSQL database.
+A Django-based cybersecurity web project. It hosts a suite of utilities to help users secure their digital presence. Current tools include:
+- **Password Strength Analyzer**: Evaluates length, complexity, and uniqueness, suggests stronger alternatives, and prevents reuse via a PostgreSQL database.
+- **Phishing Email Detector**: Uses a machine learning model (Random Forest) to classify email content as "Phishing" or "Safe" based on textual patterns.
+
 
 > **Privacy note:** Passwords are never stored in plaintext. Only SHA-256 hashes are persisted, scoped by Django session.
 
@@ -110,7 +113,6 @@ The dashboard card grid is data-driven — add your tool to the `tools` list in 
 
 ## Upcoming Tools
 The following utilities are currently in development:
-- **Phishing Inspector**: Analyze emails and URLs for phishing indicators.
 - **Hash Inspector**: Identify and crack common cryptographic hashes.
 - **Breach Lookup**: Check if credentials have appeared in known data breaches.
 

@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this project is
 
-SecureCyber is a Django 5 web app that hosts small cybersecurity utilities. The first tool, the **Password Strength Analyzer**, is fully built; the dashboard reserves slots for three planned tools (Phishing Inspector, Hash Inspector, Breach Lookup) that currently render "coming soon" placeholders.
+SecureCyber is a Django 5 web app that hosts small cybersecurity utilities. It currently features the **Password Strength Analyzer** and the **Phishing Email Detector**. The dashboard reserves slots for two planned tools (Hash Inspector, Breach Lookup) that currently render "coming soon" placeholders.
 
 - **Backend:** Django 5.x, Python 3.10+
 - **Database:** PostgreSQL (configured entirely via `.env`)
@@ -30,6 +30,9 @@ python manage.py test analyzer                          # whole analyzer app
 python manage.py test analyzer.tests.test_strength      # strength engine only
 python manage.py test analyzer.tests.test_views         # view + endpoint tests
 python manage.py test analyzer.tests.test_views.AnalyzerViewTests.test_ajax_check_returns_json   # single test
+
+# ML Training
+python phishing/train_model.py                           # retrain phishing model & update metrics
 
 # Admin (optional)
 python manage.py createsuperuser
@@ -72,6 +75,17 @@ The pipeline that turns a typed password into a UI response:
    - `ajax_suggest` (POST, JSON) — returns up to 5 suggestions (server clamps count to 1–5 via `_MIN_COUNT` / `_MAX_COUNT`).
    - Both AJAX endpoints reject input > 256 chars and bad JSON with `400`.
 5. **Frontend** (`static/js/`) — `analyzer.js` wires the form, debounces input, posts JSON with CSRF token. `meter.js` exposes `window.SecureCyberMeter.render(data)` so `analyzer.js` stays focused on event handling. Network errors are silently swallowed; the user can still submit the form for a server-side fallback.
+
+### Phishing Email Detector (`phishing/`)
+
+An ML-powered tool that classifies email content as phishing or safe:
+
+1. **ML Pipeline** (`phishing/train_model.py`) — uses `TfidfVectorizer` and `RandomForestClassifier` on a sample CSV dataset. Exports `model.joblib`, `vectorizer.joblib`, and `metrics.json` (accuracy, confusion matrix) to `phishing/ml_model/`.
+2. **Inference Engine** (`phishing/detector.py`) — a singleton `PhishingDetector` that lazily loads model artifacts and provides `predict(text)` for classification.
+3. **Views** (`phishing/views.py`):
+   - `index` — renders the tool interface.
+   - `analyze` (POST, JSON) — classifies the input text and returns the result along with pre-calculated model metrics.
+4. **Frontend** (`templates/phishing/index.html`) — a clean interface for pasting email content, displaying a color-coded result badge and a performance table for the confusion matrix.
 
 ### Dashboard (`dashboard/`)
 

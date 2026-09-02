@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+
+{% block title %}Create Account - SecureCyber{% endblock %}
+
+{% block content %}
+<div class="auth-container">
+    <div class="auth-card">
+        <h2>Create Your Account</h2>
+        <p>Join SecureCyber to test our secure login and 2FA systems.</p>
+
+        <form method="post" class="auth-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn-primary">Sign Up</button>
+        </form>
+
+        <div class="auth-footer">
+            Already have an account? <a href="{% url 'accounts:login' %}">Log in here</a>.
+        </div>
+    </div>
+</div>
+
+<style>
+    .auth-container { display: flex; justify-content: center; align-items: center; min-height: 70vh; padding: 2rem; }
+    .auth-card { background: #2a2a2a; padding: 2.5rem; border-radius: 15px; border: 1px solid #444; width: 100%; max-width: 400px; box-shadow: 0 10px 25px rgba(0,0,0,0.5); }
+    .auth-card h2 { color: #eee; margin-bottom: 0.5rem; text-align: center; }
+    .auth-card p { color: #aaa; text-align: center; margin-bottom: 2rem; font-size: 0.9rem; }
+    .auth-form p { color: #ccc; margin-bottom: 1rem; }
+    .auth-form input { width: 100%; padding: 0.75rem; background: #1e1e1e; border: 1px solid #333; color: #eee; border-radius: 6px; box-sizing: border-box; }
+    .btn-primary { width: 100%; padding: 0.75rem; background: #3b82f6; color: white; border: none; border-radius: 6px; cursor: pointer; font-weight: bold; transition: background 0.2s; }
+    .btn-primary:hover { background: #2563eb; }
+    .auth-footer { margin-top: 1.5rem; text-align: center; font-size: 0.85rem; color: #888; }
+    .auth-footer a { color: #3b82f6; text-decoration: none; }
+</style>
+{% endblock %}

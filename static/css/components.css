@@ -13,8 +13,8 @@
 /* ----- Card grid ----- */
 .card-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
-  gap: 1rem;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 1.5rem;
 }
 
 .card {
@@ -24,15 +24,17 @@
   background: var(--bg-elev);
   border: 1px solid var(--border);
   border-radius: var(--radius);
-  padding: 1.1rem 1.15rem;
+  padding: 1.5rem 1.75rem;
   color: var(--text);
   text-decoration: none;
-  transition: background .15s, transform .15s, border-color .15s;
+  transition: all .3s cubic-bezier(0.4, 0, 0.2, 1);
+  box-shadow: var(--shadow-sm);
 }
 .card:hover {
   background: var(--bg-elev-2);
   border-color: var(--accent);
-  transform: translateY(-2px);
+  transform: translateY(-8px) scale(1.02);
+  box-shadow: var(--shadow);
   text-decoration: none;
 }
 .card--muted {

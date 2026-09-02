@@ -9,4 +9,5 @@ urlpatterns = [
     path("analyzer/", include(("analyzer.urls", "analyzer"), namespace="analyzer")),
     path("scanner/", include(("scanner.urls", "scanner"), namespace="scanner")),
     path("phishing/", include(("phishing.urls", "phishing"), namespace="phishing")),
+    path("accounts/", include(("accounts.urls", "accounts"), namespace="accounts")),
 ]

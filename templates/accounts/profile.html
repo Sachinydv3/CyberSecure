@@ -1,0 +1,102 @@
+{% extends "base.html" %}
+
+{% block title %}User Profile - SecureCyber{% endblock %}
+
+{% block content %}
+<div class="profile-container">
+    <div class="profile-card">
+        <header class="profile-header">
+            <h1>User Profile</h1>
+            <p>Manage your security settings and 2FA authentication.</p>
+        </header>
+
+        <div class="profile-info">
+            <div class="info-row">
+                <span class="label">Username:</span>
+                <span class="value">{{ user.username }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">Email:</span>
+                <span class="value">{{ user.email }}</span>
+            </div>
+            <div class="info-row">
+                <span class="label">2FA Status:</span>
+                <span class="value">
+                    {% if profile.is_2fa_enabled %}
+                        <span class="status-active">Enabled</span>
+                    {% else %}
+                        <span class="status-inactive">Disabled</span>
+                    {% endif %}
+                </span>
+            </div>
+        </div>
+
+        <div class="security-section">
+            <h2>Two-Factor Authentication (2FA)</h2>
+            <p>Enhance your account security by requiring a 6-digit code from your mobile app.</p>
+
+            {% if profile.is_2fa_enabled %}
+                <form method="post" class="action-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="disable_2fa">
+                    <button type="submit" class="btn-danger">Disable 2FA</button>
+                </form>
+            {% else %}
+                <form method="post" class="action-form">
+                    {% csrf_token %}
+                    <input type="hidden" name="action" value="enable_2fa">
+                    <button type="submit" class="btn-primary">Enable 2FA</button>
+                </form>
+            {% endif %}
+
+            {% if profile.totp_secret %}
+                <div class="qr-container">
+                    <h3>Scan this QR Code</h3>
+                    <p>Use Google Authenticator, Authy, or any TOTP app.</p>
+                    <img src="data:image/png;base64,{{ qr_image_base64 }}" alt="2FA QR Code" class="qr-code">
+                    <p class="secret-text">Secret Key: <code>{{ profile.totp_secret }}</code></p>
+                </div>
+            {% endif %}
+        </div>
+
+        <div class="profile-footer">
+            <a href="{% url 'accounts:logout' %}" class="logout-link">Logout of System</a>
+        </div>
+    </div>
+</div>
+
+<style>
+    .profile-container { display: flex; justify-content: center; padding: 3rem 1rem; }
+    .profile-card { background: #2a2a2a; padding: 2.5rem; border-radius: 15px; border: 1px solid #444; width: 100%; max-width: 600px; box-shadow: 0 10px 30px rgba(0,0,0,0.5); }
+    .profile-header { text-align: center; margin-bottom: 2rem; }
+    .profile-header h1 { color: #eee; margin-bottom: 0.5rem; }
+    .profile-header p { color: #aaa; font-size: 0.9rem; }
+
+    .profile-info { background: #1e1e1e; padding: 1.5rem; border-radius: 10px; margin-bottom: 2rem; }
+    .info-row { display: flex; justify-content: space-between; padding: 0.75rem 0; border-bottom: 1px solid #333; }
+    .info-row:last-child { border-bottom: none; }
+    .info-row .label { color: #888; }
+    .info-row .value { color: #eee; font-weight: bold; }
+
+    .status-active { color: #10b981; background: rgba(16, 185, 129, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px; }
+    .status-inactive { color: #ef4444; background: rgba(239, 68, 68, 0.1); padding: 0.2rem 0.5rem; border-radius: 4px; }
+
+    .security-section { border-top: 1px solid #444; padding-top: 2rem; text-align: center; }
+    .security-section h2 { color: #eee; margin-bottom: 1rem; }
+    .security-section p { color: #aaa; margin-bottom: 1.5rem; font-size: 0.9rem; }
+    .action-form { margin-bottom: 2rem; }
+    .btn-primary { background: #3b82f6; color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
+    .btn-danger { background: #ef4444; color: white; border: none; padding: 0.75rem 2rem; border-radius: 6px; cursor: pointer; font-weight: bold; }
+
+    .qr-container { background: #1e1e1e; padding: 2rem; border-radius: 12px; border: 1px solid #333; display: inline-block; }
+    .qr-container h3 { color: #eee; margin-bottom: 0.5rem; }
+    .qr-container p { color: #888; font-size: 0.8rem; margin-bottom: 1rem; }
+    .qr-code { width: 200px; height: 200px; display: block; margin: 0 auto 1rem; border: 5px solid white; border-radius: 4px; }
+    .secret-text { font-size: 0.8rem; color: #aaa; }
+    .secret-text code { background: #000; color: #3b82f6; padding: 0.2rem 0.4rem; border-radius: 4px; }
+
+    .profile-footer { margin-top: 3rem; text-align: center; }
+    .logout-link { color: #ef4444; text-decoration: none; font-size: 0.9rem; font-weight: bold; }
+    .logout-link:hover { text-decoration: underline; }
+</style>
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     "dashboard.apps.DashboardConfig",
     "scanner.apps.ScannerConfig",
     "phishing.apps.PhishingConfig",
+    "accounts.apps.AccountsConfig",
 ]
 
 MIDDLEWARE = [

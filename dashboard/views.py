@@ -52,6 +52,17 @@ def home(request):
             ),
         },
         {
+            "name": "Secure Login System",
+            "url": "accounts:signup",
+            "ready": True,
+            "icon": "🔐",
+            "description": (
+                "Demonstrate modern authentication with hashed passwords, "
+                "session management, and TOTP-based two-factor authentication."
+            ),
+        },
+
+        {
             "name": PLACEHOLDERS["hash"],
             "url": "dashboard:tool_hash",
             "ready": False,

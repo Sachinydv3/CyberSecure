@@ -3,6 +3,7 @@
 A Django-based cybersecurity web project. It hosts a suite of utilities to help users secure their digital presence. Current tools include:
 - **Password Strength Analyzer**: Evaluates length, complexity, and uniqueness, suggests stronger alternatives, and prevents reuse via a PostgreSQL database.
 - **Phishing Email Detector**: Uses a machine learning model (Random Forest) to classify email content as "Phishing" or "Safe" based on textual patterns.
+- **Secure Login System**: A demonstration of secure authentication featuring hashed passwords, session management, and Time-based One-Time Password (TOTP) 2FA.
 
 
 > **Privacy note:** Passwords are never stored in plaintext. Only SHA-256 hashes are persisted, scoped by Django session.
